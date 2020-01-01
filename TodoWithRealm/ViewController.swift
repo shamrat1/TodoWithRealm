@@ -69,7 +69,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.textLabel?.font = UIFont.systemFont(ofSize: 20)
         return cell
     }
-    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let realm = try! Realm()
+            let id = todos![indexPath.row].id
+            let item = realm.object(ofType: Todo.self, forPrimaryKey: id)
+            try! realm.write {
+                realm.delete(item!)
+            }
+            tableView.reloadData()
+        }
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         let realm = try! Realm()
@@ -77,9 +87,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let item = realm.object(ofType: Todo.self, forPrimaryKey: id)
         do {
             try realm.write {
+                
                 item?.isCompleted = (item?.isCompleted == "1" ? "0" : "1")
-                todos![indexPath.row].isCompleted = (item?.isCompleted == "1" ? "0" : "1")
-                cell!.accessoryType = (todos![indexPath.row].isCompleted == "1" ? .checkmark : .none)
+                
+                self.tableView.reloadData()
+                
                 print("Updated")
             }
         } catch {
