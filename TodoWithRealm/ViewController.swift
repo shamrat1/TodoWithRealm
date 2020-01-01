@@ -71,10 +71,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
         let realm = try! Realm()
         let id = todos![indexPath.row].id
         let item = realm.object(ofType: Todo.self, forPrimaryKey: id)
-        print(item)
+        do {
+            try realm.write {
+                item?.isCompleted = (item?.isCompleted == "1" ? "0" : "1")
+                todos![indexPath.row].isCompleted = (item?.isCompleted == "1" ? "0" : "1")
+                cell!.accessoryType = (todos![indexPath.row].isCompleted == "1" ? .checkmark : .none)
+                print("Updated")
+            }
+        } catch {
+            print("Not Updated \(item!.id)")
+        }
+        
     }
     func incrementID() -> Int {
         let realm = try! Realm()
