@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,7 @@
 		C60158C723BC57F900A55684 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C60158C523BC57F900A55684 /* Main.storyboard */; };
 		C60158C923BC57FB00A55684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C60158C823BC57FB00A55684 /* Assets.xcassets */; };
 		C60158CC23BC57FB00A55684 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C60158CA23BC57FB00A55684 /* LaunchScreen.storyboard */; };
+		C60158D423BC6EC300A55684 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60158D323BC6EC300A55684 /* Todo.swift */; };
 		ECBA1579373F3B6B0A7F1A02 /* Pods_TodoWithRealm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29685C2427F7A7F6B3AFF9D3 /* Pods_TodoWithRealm.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +29,7 @@
 		C60158C823BC57FB00A55684 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C60158CB23BC57FB00A55684 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C60158CD23BC57FB00A55684 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C60158D323BC6EC300A55684 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +58,6 @@
 				8A0B79ADCEAF559C8E896CDF /* Pods-TodoWithRealm.debug.xcconfig */,
 				78D348E969CD98D9BB5DB13E /* Pods-TodoWithRealm.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -88,6 +89,7 @@
 				C60158C823BC57FB00A55684 /* Assets.xcassets */,
 				C60158CA23BC57FB00A55684 /* LaunchScreen.storyboard */,
 				C60158CD23BC57FB00A55684 /* Info.plist */,
+				C60158D323BC6EC300A55684 /* Todo.swift */,
 			);
 			path = TodoWithRealm;
 			sourceTree = "<group>";
@@ -210,6 +212,7 @@
 				C60158C423BC57F900A55684 /* ViewController.swift in Sources */,
 				C60158C023BC57F900A55684 /* AppDelegate.swift in Sources */,
 				C60158C223BC57F900A55684 /* SceneDelegate.swift in Sources */,
+				C60158D423BC6EC300A55684 /* Todo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
