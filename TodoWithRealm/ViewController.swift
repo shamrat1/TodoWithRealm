@@ -11,7 +11,7 @@ import RealmSwift
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var todos : Results<Todo>? = nil
-    
+    let realm = try! Realm()
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -24,9 +24,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
        
     }
     override func viewWillAppear(_ animated: Bool) {
-        let realm = try! Realm()
+        
         todos = realm.objects(Todo.self)
         self.tableView.reloadData()
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
     }
     
     @IBAction func onClickAddItem(_ sender: UIBarButtonItem) {
@@ -39,12 +40,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             todo.id = self.incrementID()
             todo.item = alert.textFields![0].text
             todo.isCompleted = "0"
-
-
-            let realm = try! Realm()
             do {
-                try realm.write {
-                    realm.add(todo)
+                try self.realm.write {
+                    self.realm.add(todo)
                     print("Saved")
                     self.tableView.reloadData()
                 }
@@ -63,35 +61,38 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel!.text = todos![indexPath.row].item
-        cell.accessoryType = (todos![indexPath.row].isCompleted == "1" ? .checkmark : .none)
+//        cell.textLabel!.text = todos![indexPath.row].item
+        if todos![indexPath.row].isCompleted == "1"{
+
+            let attrString : NSMutableAttributedString = NSMutableAttributedString(string: todos![indexPath.row].item!)
+            attrString.addAttributes([NSAttributedString.Key.strikethroughStyle : NSUnderlineStyle.single.rawValue,NSAttributedString.Key.strikethroughColor: UIColor.black], range: NSMakeRange(0, attrString.length))
+            cell.textLabel!.attributedText = attrString
+        }else{
+            let attrString : NSMutableAttributedString = NSMutableAttributedString(string: todos![indexPath.row].item!)
+             cell.textLabel!.attributedText = attrString
+        }
         cell.textLabel?.textColor = .red
         cell.textLabel?.font = UIFont.systemFont(ofSize: 20)
         return cell
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let realm = try! Realm()
             let id = todos![indexPath.row].id
             let item = realm.object(ofType: Todo.self, forPrimaryKey: id)
             try! realm.write {
                 realm.delete(item!)
+                print("deleted")
             }
             tableView.reloadData()
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        let realm = try! Realm()
         let id = todos![indexPath.row].id
         let item = realm.object(ofType: Todo.self, forPrimaryKey: id)
         do {
             try realm.write {
-                
                 item?.isCompleted = (item?.isCompleted == "1" ? "0" : "1")
-                
                 self.tableView.reloadData()
-                
                 print("Updated")
             }
         } catch {
@@ -100,7 +101,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     func incrementID() -> Int {
-        let realm = try! Realm()
         let id = (realm.objects(Todo.self).max(ofProperty: "id") as Int? ?? 0) + 1
         return id
     }
